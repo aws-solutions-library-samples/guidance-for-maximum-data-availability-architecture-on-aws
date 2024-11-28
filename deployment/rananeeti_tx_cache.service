@@ -1,0 +1,18 @@
+# /etc/systemd/system/rananeeti_tx_cache.service
+
+[Unit]
+Description=RANANEETI Caching layer
+After=network.target
+
+[Service]
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/var/www/app
+ExecStart=/var/www/app/app_batch_ddb.py
+ExecReload=/bin/kill -s SIGINT $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+# /etc/systemd/system/gunicorn.service
+
+[Unit]
+Description=Gunicorn instance to serve application
+After=network.target
+
+[Service]
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/var/www/app
+#Environment="PATH=/path/to/venv/bin"
+# All config must be in /var/www/app/gunicorn_config.py _only_!
+ExecStart=gunicorn --config /var/www/app/gunicorn_config.py 
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

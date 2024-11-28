@@ -1,215 +1,176 @@
-# Guidance Title (required)
+# Guidance for Maximum Data Availability Architecture on AWS
+## (aka "MD2A" and "Rananeeti")
 
-The Guidance title should be consistent with the title established first in Alchemy.
-
-**Example:** *Guidance for Product Substitutions on AWS*
-
-This title correlates exactly to the Guidance it’s linked to, including its corresponding sample code repository. 
-
-
-## Table of Contents (required)
-
-List the top-level sections of the README template, along with a hyperlink to the specific section.
-
-### Required
-
-1. [Overview](#overview-required)
+## Table of Content
+1. [Overview](#overview)
     - [Cost](#cost)
-2. [Prerequisites](#prerequisites-required)
-    - [Operating System](#operating-system-required)
-3. [Deployment Steps](#deployment-steps-required)
-4. [Deployment Validation](#deployment-validation-required)
-5. [Running the Guidance](#running-the-guidance-required)
-6. [Next Steps](#next-steps-required)
-7. [Cleanup](#cleanup-required)
-
-***Optional***
-
-8. [FAQ, known issues, additional considerations, and limitations](#faq-known-issues-additional-considerations-and-limitations-optional)
-9. [Revisions](#revisions-optional)
-10. [Notices](#notices-optional)
-11. [Authors](#authors-optional)
-
-## Overview (required)
-
-1. Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
-
-    - **Why did you build this Guidance?**
-    - **What problem does this Guidance solve?**
-
-2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
-
-### Cost ( required )
-
-This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. Provide an in-depth cost breakdown table in this section below ( you should use AWS Pricing Calculator to generate cost breakdown ).
-
-Start this section with the following boilerplate text:
-
-_You are responsible for the cost of the AWS services used while running this Guidance. As of <month> <year>, the cost for running this Guidance with the default settings in the <Default AWS Region (Most likely will be US East (N. Virginia)) > is approximately $<n.nn> per month for processing ( <nnnnn> records )._
-
-Replace this amount with the approximate cost for running your Guidance in the default Region. This estimate should be per month and for processing/serving resonable number of requests/entities.
-
-Suggest you keep this boilerplate text:
-_We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance._
-
-### Sample Cost Table ( required )
-
-**Note : Once you have created a sample cost table using AWS Pricing Calculator, copy the cost breakdown to below table and upload a PDF of the cost estimation on BuilderSpace. Do not add the link to the pricing calculator in the ReadMe.**
-
-The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
-
-| AWS service  | Dimensions | Cost [USD] |
-| ----------- | ------------ | ------------ |
-| Amazon API Gateway | 1,000,000 REST API calls per month  | $ 3.50month |
-| Amazon Cognito | 1,000 active users per month without advanced security feature | $ 0.00 |
-
-## Prerequisites (required)
-
-### Operating System (required)
-
-- Talk about the base Operating System (OS) and environment that can be used to run or deploy this Guidance, such as *Mac, Linux, or Windows*. Include all installable packages or modules required for the deployment. 
-- By default, assume Amazon Linux 2/Amazon Linux 2023 AMI as the base environment. All packages that are not available by default in AMI must be listed out.  Include the specific version number of the package or module.
-
-**Example:**
-“These deployment instructions are optimized to best work on **<Amazon Linux 2 AMI>**.  Deployment in another OS may require additional steps.”
-
-- Include install commands for packages, if applicable.
-
-
-### Third-party tools (If applicable)
-
-*List any installable third-party tools required for deployment.*
-
-
-### AWS account requirements (If applicable)
-
-*List out pre-requisites required on the AWS account if applicable, this includes enabling AWS regions, requiring ACM certificate.*
-
-**Example:** “This deployment requires you have public ACM certificate available in your AWS account”
-
-**Example resources:**
-- ACM certificate 
-- DNS record
-- S3 bucket
-- VPC
-- IAM role with specific permissions
-- Enabling a Region or service etc.
-
-
-### aws cdk bootstrap (if sample code has aws-cdk)
-
-<If using aws-cdk, include steps for account bootstrap for new cdk users.>
-
-**Example blurb:** “This Guidance uses aws-cdk. If you are using aws-cdk for first time, please perform the below bootstrapping....”
-
-### Service limits  (if applicable)
-
-<Talk about any critical service limits that affect the regular functioning of the Guidance. If the Guidance requires service limit increase, include the service name, limit name and link to the service quotas page.>
-
-### Supported Regions (if applicable)
-
-<If the Guidance is built for specific AWS Regions, or if the services used in the Guidance do not support all Regions, please specify the Region this Guidance is best suited for>
-
-
-## Deployment Steps (required)
-
-Deployment steps must be numbered, comprehensive, and usable to customers at any level of AWS expertise. The steps must include the precise commands to run, and describe the action it performs.
-
-* All steps must be numbered.
-* If the step requires manual actions from the AWS console, include a screenshot if possible.
-* The steps must start with the following command to clone the repo. ```git clone xxxxxxx```
-* If applicable, provide instructions to create the Python virtual environment, and installing the packages using ```requirement.txt```.
-* If applicable, provide instructions to capture the deployed resource ARN or ID using the CLI command (recommended), or console action.
-
- 
-**Example:**
-
-1. Clone the repo using command ```git clone xxxxxxxxxx```
-2. cd to the repo folder ```cd <repo-name>```
-3. Install packages in requirements using command ```pip install requirement.txt```
-4. Edit content of **file-name** and replace **s3-bucket** with the bucket name in your account.
-5. Run this command to deploy the stack ```cdk deploy``` 
-6. Capture the domain name created by running this CLI command ```aws apigateway ............```
-
-
-
-## Deployment Validation  (required)
-
-<Provide steps to validate a successful deployment, such as terminal output, verifying that the resource is created, status of the CloudFormation template, etc.>
-
-
-**Examples:**
-
-* Open CloudFormation console and verify the status of the template with the name starting with xxxxxx.
-* If deployment is successful, you should see an active database instance with the name starting with <xxxxx> in        the RDS console.
-*  Run the following CLI command to validate the deployment: ```aws cloudformation describe xxxxxxxxxxxxx```
-
-
-
-## Running the Guidance (required)
-
-<Provide instructions to run the Guidance with the sample data or input provided, and interpret the output received.> 
-
-This section should include:
-
-* Guidance inputs
-* Commands to run
-* Expected output (provide screenshot if possible)
-* Output description
-
-
-
-## Next Steps (required)
-
-Provide suggestions and recommendations about how customers can modify the parameters and the components of the Guidance to further enhance it according to their requirements.
-
-
-## Cleanup (required)
-
-- Include detailed instructions, commands, and console actions to delete the deployed Guidance.
-- If the Guidance requires manual deletion of resources, such as the content of an S3 bucket, please specify.
-
-
-
-## FAQ, known issues, additional considerations, and limitations (optional)
-
-
-**Known issues (optional)**
-
-<If there are common known issues, or errors that can occur during the Guidance deployment, describe the issue and resolution steps here>
-
-
-**Additional considerations (if applicable)**
-
-<Include considerations the customer must know while using the Guidance, such as anti-patterns, or billing considerations.>
-
-**Examples:**
-
-- “This Guidance creates a public AWS bucket required for the use-case.”
-- “This Guidance created an Amazon SageMaker notebook that is billed per hour irrespective of usage.”
-- “This Guidance creates unauthenticated public API endpoints.”
-
-
-Provide a link to the *GitHub issues page* for users to provide feedback.
-
-
-**Example:** *“For any feedback, questions, or suggestions, please use the issues tab under this repo.”*
-
-## Revisions (optional)
-
-Document all notable changes to this project.
-
-Consider formatting this section based on Keep a Changelog, and adhering to Semantic Versioning.
-
-## Notices (optional)
-
-Include a legal disclaimer
-
-**Example:**
-*Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
-
-
-## Authors (optional)
-
-Name of code contributors
+2. [Background](#background)
+3. [Cafe Demo App deployment process](#cafe-demo-app-deployment-process)
+    - [Prepare the account](#prepare-the-account)
+    - [Deploy Web and App Infrastructure](#deploy-web-and-app-infrastructure)
+    - [DB Server](#db-server)
+    - [Web Server](#web-server)
+    - [App Server](#app-server)
+4. [End of Deployment](#end-of-deployment)
+5. [Cleanup](#cleanup)
+6. [Notices](#notices)
+7. [Author](#author)
+
+## Overview
+MD2A uses Aurora Global and Dynamo databases, Intelligent-Tiering S3 storage, global traffic management, application firewall and balancing infrastructure. These services, via their own programming APIs and SDKs, get engaged as necessary by our new _“Rananeeti”_ Data Platform which can deliver the _"Full Stack Resiliency"_, working with Application _in its entirety_, covering User Interface, Services and Database layers, as presented in the [Reference Architecture](#ArchDiag) diagram.
+
+### What are we deploying?
+The main idea is to _make your application resilient to database failures_.
+This is how it looks like for our Cafe Demo Application:
+<!-- ![name](link to image on GH)(link to your URL) -->
+<!-- https://www.markdownguide.org/basic-syntax/ -->
+<img src="assets/CafeAppFullResiliencyToDBFailuresDemo.jpeg" alt="Cafe App Full Resiliency Example" width=400px>
+The video, detailed explanations and build guide follow.
+
+### Architecture Diagram
+<a name="ArchDiag"></a>
+The fully deployed production grade system have structure, similar to this:
+<img src="assets/reference_architecture.png" alt="reference_architecture" width=800px>
+Aurora Global Database and Amazon DynamoDB are powerful tools that can significantly enhance operational excellence by 1/ _replicating data_ across multiple Availability Zones and _Regions_; 2/ maintaining  continuous operations and _minimizing downtime_; 3/ _automating_ many database management tasks, such as backups, patching, and failover; 4/ with its high-performance storage engine, Aurora Global Database delivers low-latency performance, improving application responsiveness and providing _cross-regional availability_ at the same time; 5/ DynamoDB is a _fully managed_ NoSQL database that eliminates the need for database administration; 6/ DynamoDB _Global Tables_ enable low-latency access to data from multiple regions, which is ideal for applications with _global users_ and improves user experience.
+
+### Cost
+You are responsible for the cost of the AWS services used while running this Guidance. As of December 2024 _my cost_ of running this Guidance in the _us-east-1_ region is approximately _$55_ per month. \
+<img src="assets/cost_nonrepresentative_example.jpeg" alt="One of possible Cafe App price points" width=200px> \
+_Your cost may and will vary_.
+
+## Background
+You can read about *Application-level Resiliency* on 
+[my LinkedIn page](https://www.linkedin.com/in/denys-dobrelya/):
+- [Working Demo Application walkthrough](https://www.linkedin.com/posts/activity-7222454561465073664-metD), full resolution video is available upon request
+- [Reference Architecture](#ArchDiag) diagram, describing all moving parts
+- Main ideas behind "*Maximum Data Availability Architecture*" (MD2A):
+   - [Building Resilient Applications: Leveraging Modern Databases for High Availability](https://www.linkedin.com/pulse/building-resilient-applications-leveraging-modern-high-denys-dobrelya-pcpqf)
+   - [Building for the Future: Why Your Applications Need a Data Platform Foundation](https://www.linkedin.com/pulse/building-future-why-your-applications-need-data-denys-dobrelya-uzhaf)
+   - [Business Summary: Deploying Aurora as a Global Cross-Region Database](https://www.linkedin.com/pulse/business-summary-deploying-aurora-global-cross-region-denys-dobrelya-o4wpf)
+   - [Multi-Region Resilient Application Recipe](https://www.linkedin.com/pulse/multi-region-resilient-application-recipe-denys-dobrelya-cwjrf)
+   - [Building a Cloud Fortress](https://www.linkedin.com/pulse/building-cloud-fortress-denys-dobrelya-b30wf)
+- [Fully functional Cafe Demo website](https://cafe.olddba.people.aws.dev) is still available,
+but we were asked to restrict public access. If you want to try it - let me know! 
+(_It looks and works exactly like in my video above._)
+
+## Cafe Demo App deployment process
+By leveraging cloud computing and AWS managed services, _“Rananeeti” can reduce its carbon footprint_ significantly. AWS data centers are highly energy-efficient, utilizing advanced cooling technologies and renewable energy sources. AWS is committed to sustainable practices, such as reducing waste and optimizing resource usage.
+
+### Learn Enough Command Line to Be Dangerous
+> A software engineer spends months crafting a complex AI system. Finally, it's ready to deploy. The client, thrilled, asks, _"Can you show me a screenshot of it working?"_ The engineer sighs, _"Sure, here's a picture of my computer screen with the AI running in the background."_
+
+I promise not to insult your intelligence with unnecessary dozen of screenshots "how to add my IP to SecGroup". I hope we are on the same page here.
+
+### Prepare the account
+-  Get new AWS Account. \
+   So you don't mess up your things at work!
+-  Use N.Virginia "us-east-1" region. \
+   You may use any region you wish, but then you need to change the default value of CloudFormation parameter "HostAMI".
+-  Create a KeyPair and name it "cafe-keypair" or provide your own name as CloudFormation parameter "CafeKey".
+-  Run the CloudFormation (CF from now) and deploy the stack "Cafe". \
+   Use file "deployment/Cafe_template.yaml". \
+   Aurora DB creation takes the longest time - be patient for about 15 min. \
+   Once everything is ready read the "Output" section and add your own IP to the Security Group.
+- Connect to EC2 via ssh using your KeyPair. \
+   This is your Application server and all Flask App code will be deployed here. \
+   It is already configured to connect to empty Aurora PG database, just run "psql" from command line. \
+   This Git Repo code had already been cloned into "/home/ec2-user/md2a/rananeeti/olddba". \
+   Go there.
+- Now we need to deploy [this target stack](https://www.linkedin.com/pulse/building-resilient-applications-leveraging-modern-high-denys-dobrelya-pcpqf).
+<img src="assets/CafeAppStackMapping.png" alt="Cafe App Full Resiliency Stack Mapping" width=800px>
+This image "maps" old (but not useless!) "legacy" Enterprise world to newer lightweight approach.
+
+### Deploy Web and App Infrastructure
+- As "ec2-user" install necessary Python modules:
+<pre>
+- $ pip3 install boto3 oauthlib Flask Flask-SQLAlchemy Flask-OAuthlib Gunicorn psycopg2-binary
+</pre>
+- Configure AWS CLI credentials.
+The recommended practice is to use [IAM Identity Center authentication](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html).
+<pre>
+- $ cd ~
+- $ aws configure
+AWS Access Key ID [None]: Key-from-your-IAM-User
+AWS Secret Access Key [None]: Secret-from-your-IAM-User
+Default region name [None]: us-east-1
+Default output format [None]: text
+$ aws s3 ls
+    2024-11-26 05:14:32 cf-templates-1j84y89c4zr7w-ap-southeast-2
+    2024-11-26 06:42:48 cf-templates-1j84y89c4zr7w-us-east-1
+</pre>
+
+### DB Server
+- As "ec2-user", connect to Aurora DB from the App Server.
+<pre>
+- psql
+  cafedb=> \c
+psql (15.8, server 15.4)
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+You are now connected to database "cafedb" as user "postgres".
+  cafedb=>  create user cafeapp password 'Welcome1';
+  cafedb=>  grant all on database cafedb to cafeapp; 
+  cafedb=> \c cafedb cafeapp
+psql (15.8, server 15.4)
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+You are now connected to database "cafedb" as user "cafeapp".
+  cafedb=>  create schema cafe authorization cafeapp;
+  cafedb=>  create table cafe.ordersraw(
+             ordrid SERIAL PRIMARY KEY,
+             ordrdgst char(20) UNIQUE NOT NULL, -- blake2b hash digest value
+             ordrname varchar(40) NOT NULL, -- who ordered
+             ordrppl integer NOT NULL, -- how many people to attend
+             ordrdttm timestamp(0) NOT NULL, -- Date / Time no TZ no Seconds
+             ordrtxt varchar(200) -- Optional notes
+    );
+</pre>
+
+### Web Server
+- Become root on your EC2 App Server.
+<pre>
+- # cd /
+- # tar xzvpf /home/ec2-user/md2a/rananeeti/olddba/assets/v1.1.tgz # Please preserve permissions with "p"!
+- # cd ~
+- # apachectl start
+- # apachectl status
+   .... should see workers
+- # systemctl enable httpd.service  # So it will restart after reboot.
+</pre>
+- From your workstation open in Firefox your EC2 host address.
+You should see "home Cafe" landing webpage, delivered over plain HTTP. Setting up your own domain with Route53 and registering all necessary certificates to terminate TLS at ELB is beyond scope of this demo.  [My Demo website]( https://cafe.olddba.people.aws.dev) provides that functionality and Customer workshop may be organised to review full details.
+
+### App Server
+- Continue as root
+<pre>
+- # pip3 install gunicorn
+- # systemctl enable gunicorn
+- # systemctl start gunicorn
+- # systemctl status gunicorn
+   .... should see workers
+- # systemctl enable rananeeti_tx_cache
+- # systemctl start rananeeti_tx_cache
+- # systemctl status rananeeti_tx_cache
+   .... should see "Started rananeeti_tx_cache.service - RANANEETI Caching layer."
+</pre>
+
+## End of Deployment
+From your workstation open in Firefox your EC2 host address and start making "reservations", while ticking the checkbox to test Database failures. (You may consider to temporarily disable JS so you can go back and resubmit same data without changing anything.)
+
+Now it's a good time to play around with the cafe Demo website and to review its code. Note that "Rananeeti" Data Platform is the _only interface_ to all sort of data stores, relational and not. It also has its own connection pool with transaction processing logic smart enough to survive even full database outages. _That is the core concept of Maximum Data Availability Architecture_.
+
+> Thank you for visiting! 
+
+## Cleanup
+### Delete Stack
+To clean up environment, AWS resources can be deleted using CloudFormation - you can go to the CloudFormation stack and click `Delete`. This process shall fully cleanup all deployed and provisioned services. It's time to destroy the account too - remember, we created it only for the purpose of running this demo? Please follow this approach when you experiment with AWS Cloud Services - it's the best way to avoid unnecessary billing suprises.
+
+## Notices
+**Copyright Notice:**
+<sub><sup><i>Please note that the software components of the software stack deployed for this demo, including Linux, Apache HTTP Server, Gunicorn and Python libraries, may be licensed under the GNU General Public License version 3 (GPLv3) and may be not suitable for Commercial use. Please do your own legal research. For specific licensing inquiries or commercial use, please consult the official GPLv3 license text and consider contacting the respective copyright holders.</i></sup></sub>
+
+**Legal Disclaimer:**
+<sub><sup><i>Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.</i></sup></sub>
+
+
+## Author
+- [Denys Dobrelya](https://www.linkedin.com/in/denys-dobrelya/) - Principal Specialist Solutions Architect
+<img src="assets/CafeAuthor.jpeg" alt="Cafe App Author" width="400px">

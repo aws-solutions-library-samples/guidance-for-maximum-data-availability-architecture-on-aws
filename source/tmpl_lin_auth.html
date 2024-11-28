@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>home Cafe</title>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<style>
+body, html {
+  height: 100%;
+  font-family: "Inconsolata", sans-serif;
+}
+
+.bgimg {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/w3images/coffeehouse.jpg");
+  min-height: 75%;
+}
+
+.menu {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
+    <span class="w3-tag">Open from 6am to 5pm</span>
+  </div>
+  <div class="w3-display-middle w3-center">
+	  <span class="w3-text-white" style="font-size:90px">
+		  <b><u>h</u></b>ome<br>Cafe</span>
+  </div>
+  <div class="w3-display-bottomright w3-center w3-padding-large">
+    <span class="w3-text-white">450 W 33rd St., 5015</span>
+  </div>
+</header>
+
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-grayscale w3-large">
+
+<!-- About Container -->
+<div class="w3-container" id="about">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">WE WANT TO KNOW YOU BETTER</span></h5>
+
+    <div class="w3-padding w3-center">
+    <a href= {{ linauthlink }} >
+    <img src="/w3images/lin-login.png"> </a>
+    </div>
+
+    <div class="w3-card w3-padding w3-center">
+    <p>
+Bots attack our website multiple times a day. To ensure you're a real user
+interested in our demo and not someone trying to exploit our system, we kindly
+ask you to log in via LinkedIn. We'll only see your name, not your email. This
+helps us verify you're a real person, just like yourself.
+    </p>
+    </div>
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Thank you for your understanding!</span></h5>
+
+  </div>
+</div>
+

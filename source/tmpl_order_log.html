@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>home Cafe</title>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<style>
+body, html {
+  height: 100%;
+  font-family: "Inconsolata", sans-serif;
+}
+
+.bgimg {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/w3images/coffeehouse.jpg");
+  min-height: 75%;
+}
+
+.menu {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
+    <span class="w3-tag">Open from 6am to 5pm</span>
+  </div>
+  <div class="w3-display-middle w3-center">
+	  <span class="w3-text-white" style="font-size:90px">
+		  <b><u>h</u></b>ome<br>Cafe</span>
+  </div>
+  <div class="w3-display-bottomright w3-center w3-padding-large">
+    <span class="w3-text-white">450 W 33rd St., 5015</span>
+  </div>
+</header>
+
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-grayscale w3-large">
+
+<!-- About Container -->
+<div class="w3-container" id="about">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">THANK YOU FOR YOUR ORDER</span></h5>
+    <!-- Funny Quote -->
+    <div class="w3-panel w3-light-grey">
+	  <span style="font-size:120px;line-height:0.6em;opacity:0.2">&#10077;</span>
+	  <p class="w3-xlarge" style="margin-top:-40px">
+	  <i>
+	"A complex system that works is invariably found to have evolved from a
+simple system that worked. A complex system designed from scratch never works
+and cannot be patched up to make it work. You have to start over with a working
+simple system."
+	  </i></p>
+	  <p>John Gall (1975) <i>Systemantics:<br> How Systems Really Work and How They Fail (p.71)</i></p>
+    </div>
+    <h1> {{ lin_user_name }} </h1>
+    <p>
+     Order No <span class="w3-tag w3-wide">
+     {{ ordernum }} </span> accepted for <span class="w3-tag w3-wide">
+     {{ ppl }} </span> people."
+    </p>
+
+    <div class="w3-card {{ rcolor }} w3-center">
+    <p><b>RANANEETI</b> Data Platform - <b>App Code</b></p> </div>
+
+<!-- Updates' text from processes to be _appended_ here, as plain text -->

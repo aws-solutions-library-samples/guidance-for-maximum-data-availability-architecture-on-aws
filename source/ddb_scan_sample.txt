@@ -1,0 +1,12 @@
+[ec2-user@webapp01 app]$ python3
+Python 3.9.16 (main, Apr 24 2024, 00:00:00) 
+[GCC 11.4.1 20230605 (Red Hat 11.4.1-2)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import boto3
+>>> import json
+>>> ddb = boto3.client('dynamodb')  
+>>> r = ddb.scan(TableName='cafeordrsglbl', Limit=5)
+>>> r
+{'Items': [{'ordrdgst': {'S': 'bb0d130d9bdb6dfcdda8'}, 'ordrdata': {'S': '[{"p_ordrdgst": "bb0d130d9bdb6dfcdda8", "p_ordrname": "Test One", "p_ordrppl": "6", "p_ordrdttm": "2020-11-16T12:00", "p_ordrtxt": "This is a test order only."}]'}}, {'ordrdgst': {'S': 'fea1656abf750111f0c4'}, 'ordrdata': {'S': '[{"p_ordrdgst": "fea1656abf750111f0c4", "p_ordrname": "Test One", "p_ordrppl": "19", "p_ordrdttm": "2020-11-16T16:00", "p_ordrtxt": "This is a test order only."}]'}}], 'Count': 2, 'ScannedCount': 2, 'ResponseMetadata': {'RequestId': '7BSKRVT699UQI4TLVK3K4CUEHFVV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Tue, 18 Jun 2024 22:32:14 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '525', 'connection': 'keep-alive', 'x-amzn-requestid': '7BSKRVT699UQI4TLVK3K4CUEHFVV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '3159300967'}, 'RetryAttempts': 0}}
+>>> 
+

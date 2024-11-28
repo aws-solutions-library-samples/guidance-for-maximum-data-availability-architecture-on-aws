@@ -1,0 +1,265 @@
+# When deploying, name this Stack "Cafe"
+# *** << --------- Cafe ------------- >> ***
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Guidance for Maximum Data Availability Architecture on AWS"
+Parameters:
+  PrefxName:
+    Description: "Prefix for all resources"
+    Type: String
+    Default: "MD2A-"
+  DBPassword:
+    NoEcho: 'false'
+    Description: "Password for Aurora database access"
+    Type: String
+    MinLength: '8'
+    MaxLength: '41'
+    Default: "Welcome1" # For those, speaking "Red language" ;-)
+    AllowedPattern: '[a-zA-Z0-9]*'
+    ConstraintDescription: "Must contain only alphanumeric characters"
+  HostAMI:
+    # You may prepare fully configured App Server, make AMI and use it here.
+    Description: "Amazon Linux latest AMI image to use for WebApp Host"
+    Type: String
+    Default: "ami-0453ec754f44f9a4a" # us-east-1. I don't like long maps ...
+    # Default: "ami-0146fc9ad419e2cfd" # ap-southeast-2
+  CafeKey:
+    Description: "Your Key for SSH. You *must* pre-create it!"
+    Type: String
+    Default: "cafe-keypair"
+Resources:
+# My demo goes into its own VPC and builds from there.
+  CafeDemoVPC:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Delete"
+    Properties:
+      CidrBlock: "172.40.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      # 1/ Below is just an example of tagging and I limit it to VPC only.
+      # You may use "Fn::Transform" and "AWS:Include" to add common Tags
+      # to _every_ resource from _your own_ S3 bucket template.
+      # 2/ Another imporvement idea is to use StackSets 
+      # with separate stacks for VPC / DB / EC2 / Global services.
+      Tags:
+       - Key: "Name"
+         Value: !Sub "${PrefxName}CafeDemoVPC"
+       - Key: "MD2A"
+         Value: "Rananeeti"
+       - Key: "Author"
+         Value: "Denys Dobrelya"
+       - Key: "Version"
+         Value: "1.0"
+ # RDS Subnet Group
+  DBSubnet1:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: 
+       !Ref CafeDemoVPC
+      CidrBlock: 172.40.1.0/24
+      AvailabilityZone: 
+       Fn::Select: 
+         - 0
+         - Fn::GetAZs: ""
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBSubnet1"
+  DBSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Properties: 
+      VpcId: 
+       !Ref CafeDemoVPC
+      CidrBlock: 172.40.2.0/24
+      AvailabilityZone: 
+       Fn::Select: 
+         - 1 # Note another AZ
+         - Fn::GetAZs: ""
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBSubnet2"
+  DBSubnet3:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId:
+       !Ref CafeDemoVPC
+      CidrBlock: 172.40.3.0/24
+      AvailabilityZone:
+       Fn::Select:
+         - 2 # Note another AZ
+         - Fn::GetAZs: ""
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBSubnet3"
+  DBSubnetGroup: 
+    Type: AWS::RDS::DBSubnetGroup
+    Properties: 
+      DBSubnetGroupDescription: "Aurora MultiAZ or Global DB for Cafe Demo App"
+      SubnetIds: 
+        - !Ref DBSubnet1
+        - !Ref DBSubnet2
+        - !Ref DBSubnet3
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBSubGroup"
+  CafeDemoDB:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::RDS::DBCluster"
+    DeletionPolicy: "Delete"
+    Properties:
+      StorageEncrypted: false
+      AssociatedRoles: []
+      EnableHttpEndpoint: false
+      EngineMode: "provisioned"
+      Port: 5432
+      DBClusterIdentifier: "cafe-1"
+      PreferredBackupWindow: "12:38-13:08"
+      NetworkType: "IPV4"
+      CopyTagsToSnapshot: true
+      Engine: "aurora-postgresql"
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBCluster"
+      EngineLifecycleSupport: "open-source-rds-extended-support-disabled"
+      EngineVersion: "15.4"
+      StorageType: "aurora"
+      DatabaseName: "cafedb"
+      EnableLocalWriteForwarding: false
+      PreferredMaintenanceWindow: "sun:08:12-sun:08:42"
+      AutoMinorVersionUpgrade: true
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      DeletionProtection: false
+      MasterUsername: "postgres"
+      MasterUserPassword:
+        Ref: DBPassword
+      ReadEndpoint: {}
+      EnableIAMDatabaseAuthentication: false
+      DBClusterParameterGroupName: "default.aurora-postgresql15"
+      BackupRetentionPeriod: 1
+      EnableCloudwatchLogsExports: []
+  CafeDemoDBi1:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBParameterGroupName: "default.aurora-postgresql15"
+      Engine: "aurora-postgresql"
+      DBClusterIdentifier:
+        Ref: CafeDemoDB
+      PubliclyAccessible: 'false'
+      DBInstanceClass: db.r5.large 
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBInstance1"
+  CafeDemoDBi2:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBParameterGroupName: "default.aurora-postgresql15"
+      Engine: "aurora-postgresql"
+      DBClusterIdentifier:
+        Ref: CafeDemoDB
+      PubliclyAccessible: 'false'
+      DBInstanceClass: db.r5.large
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoDBInstance2"
+  CafeWebAppEC2: 
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: !Ref HostAMI
+      InstanceType: t2.medium
+      KeyName: !Ref CafeKey
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: !Ref DBSubnet1
+      UserData:
+        # This will work properly _only_ at first clean deployment of EC2!
+        # Check /var/log/cloud-init* and journalctl -b
+        # postgresql.org/docs/current/libpq-envars.html
+        Fn::Base64: !Sub |
+          #!/usr/bin/bash 
+          yum install -y lynx postgresql15 git httpd python3 python3-pip
+          mkdir -p /home/ec2-user/md2a/rananeeti
+          git clone https://github.com/OldDBA-AWS/olddba \
+              /home/ec2-user/md2a/rananeeti/olddba
+          chown -R ec2-user:ec2-user /home/ec2-user/md2a
+          touch /tmp/env
+          echo "export PGHOST=${CafeDemoDB.Endpoint.Address}" >> /tmp/env
+          echo "export PGPORT=${CafeDemoDB.Endpoint.Port}" >> /tmp/env
+          echo "export PGDATABASE=cafedb" >> /tmp/env
+          echo "export PGUSER=postgres" >> /tmp/env
+          echo "export PGPASSWORD=${DBPassword}" >> /tmp/env
+          cat /tmp/env >> /home/ec2-user/.bashrc
+          echo "${CafeDemoDB.Endpoint.Address},${DBPassword}" >> /etc/md2a.db
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoWebAppHost"
+# Internet connectivity so you can access Web App on EC2.
+# It's not strictly necessary if you can use Lynx and serial console.
+# Also, you may deploy EC2 in default VPC and do peering with "DB Core VPC".
+  CafeDemoVPCInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDemoVPC-IGW"
+  CafeDemoVPCIGWAttach:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref CafeDemoVPCInternetGateway
+      VpcId: !Ref CafeDemoVPC
+  # Since CF still can't access Default Routing Table ...
+  CafeDBSubnet1RouteTable: # EC2 goes only in Subnet 1
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref CafeDemoVPC
+      Tags:
+         - Key: "Name"
+           Value: !Sub "${PrefxName}CafeDBSub1RT"
+  CafeDBSubnet1AssociateRT:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref CafeDBSubnet1RouteTable
+      SubnetId: !Ref DBSubnet1
+  CafeDemoIGWRoute:
+    Type: AWS::EC2::Route
+    DependsOn: CafeDemoVPCIGWAttach
+    Properties:
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref CafeDemoVPCInternetGateway
+      RouteTableId: !Ref CafeDBSubnet1RouteTable
+# DynamoDB (global) table used as Transactions Cache.
+  CafeDDB:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: cafeordrsglbl
+      AttributeDefinitions: 
+         - AttributeName: "ordrdgst"
+           AttributeType: "S"
+      KeySchema: 
+         - AttributeName: "ordrdgst"
+           KeyType: "HASH"
+      BillingMode: PAY_PER_REQUEST
+      Tags:
+         - Key: "Name" 
+           Value: !Sub "${PrefxName}CafeDDB"
+# Read these in the "Outputs" tab of your Stack in AWS CF Console.
+Outputs:
+  RDSEndpointName:
+    Description: You can connect to this Aurora *only* from EC2 CafeApp Host!
+    Value: !GetAtt CafeDemoDB.Endpoint.Address
+  EC2PubFQDN:
+    Description: "You *must* manually add *only your IP* into Security Groups.\n
+                  Do NOT allow all - and this is why we can't do it for you!\n
+                  AppHost name for ssh as ec2-user is:"
+    Value: !GetAtt CafeWebAppEC2.PublicDnsName
+  SecGroupToAddYourIP:
+    Description: "Add your public IP to this security group before connecting to EC2:"
+    Value: !GetAtt CafeDemoVPC.DefaultSecurityGroup
+# psql -h cafe-1.cluster-ckru66eio9ot.us-east-1.rds.amazonaws.com -d cafedb -U postgres
+# Welcome1
+#
+# The End.
+# *** << -- >> ***
+
+# vim: set expandtab: 
