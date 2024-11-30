@@ -49,8 +49,7 @@ You can read about *Application-level Resiliency* on
    - [Business Summary: Deploying Aurora as a Global Cross-Region Database](https://www.linkedin.com/pulse/business-summary-deploying-aurora-global-cross-region-denys-dobrelya-o4wpf)
    - [Multi-Region Resilient Application Recipe](https://www.linkedin.com/pulse/multi-region-resilient-application-recipe-denys-dobrelya-cwjrf)
    - [Building a Cloud Fortress](https://www.linkedin.com/pulse/building-cloud-fortress-denys-dobrelya-b30wf)
-- [Fully functional Cafe Demo website](https://cafe.olddba.people.aws.dev) is still available,
-but we were asked to restrict public access. If you want to try it - let me know! 
+- [Fully functional Cafe Demo website](https://cafe.olddba.people.aws.dev) is available, you are welcome to try it! 
 (_It looks and works exactly like in my video above._)
 
 ## Cafe Demo App deployment process
