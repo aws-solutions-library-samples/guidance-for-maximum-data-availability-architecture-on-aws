@@ -160,7 +160,7 @@ Now it's a good time to play around with the cafe Demo website and to review its
 
 ## Cleanup
 ### Delete Stack
-To clean up environment, AWS resources can be deleted using CloudFormation - you can go to the CloudFormation stack and click `Delete`. This process shall fully cleanup all deployed and provisioned services. It's time to destroy the account too - remember, we created it only for the purpose of running this demo? Please follow this approach when you experiment with AWS Cloud Services - it's the best way to avoid unnecessary billing suprises.
+To clean up environment, AWS resources can be deleted using CloudFormation - you can go to the CloudFormation stack and click `Delete`. This process shall fully cleanup all deployed and provisioned services. It's time to destroy the account too - remember, we created it only for the purpose of running this demo? Please follow this approach when you experiment with AWS Cloud Services - it's the best way to avoid unnecessary billing surprises.
 
 ## Notices
 **Copyright Notice:**
