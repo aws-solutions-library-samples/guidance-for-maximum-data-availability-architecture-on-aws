@@ -1,4 +1,5 @@
 # When deploying, name this Stack "Cafe"
+# The Minimal Deployment - git checkout b40cd45 
 # *** << --------- Cafe ------------- >> ***
 AWSTemplateFormatVersion: '2010-09-09'
 Description: "Guidance for Maximum Data Availability Architecture on AWS"
@@ -224,6 +225,7 @@ Resources:
       DBClusterIdentifier:
         Ref: CafeDemoDB
       PubliclyAccessible: 'false'
+      StorageEncrypted: 'true'
       DBInstanceClass: db.r5.large 
       Tags:
          - Key: "Name"
@@ -236,6 +238,7 @@ Resources:
       DBClusterIdentifier:
         Ref: CafeDemoDB
       PubliclyAccessible: 'false'
+      StorageEncrypted: 'true'
       DBInstanceClass: db.r5.large
       Tags:
          - Key: "Name"
