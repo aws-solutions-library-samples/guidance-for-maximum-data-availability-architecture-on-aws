@@ -226,6 +226,8 @@ Resources:
         Ref: CafeDemoDB
       PubliclyAccessible: 'false'
       StorageEncrypted: 'true'
+      MonitoringInterval: 60
+      MonitoringRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role"
       DBInstanceClass: db.r5.large 
       Tags:
          - Key: "Name"
@@ -239,6 +241,8 @@ Resources:
         Ref: CafeDemoDB
       PubliclyAccessible: 'false'
       StorageEncrypted: 'true'
+      MonitoringInterval: 60
+      MonitoringRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role"
       DBInstanceClass: db.r5.large
       Tags:
          - Key: "Name"
