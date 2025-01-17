@@ -14,7 +14,7 @@ Parameters:
     Type: String
     MinLength: '8'
     MaxLength: '41'
-    Default: "Welcome1" # For those, speaking "Red language" ;-)
+    Default: "d6f7984cf7240c5d8587a3cbf9af3ccffcaa9de922908a2cfdb8fad5aeccc3e7" 
     AllowedPattern: '[a-zA-Z0-9]*'
     ConstraintDescription: "Must contain only alphanumeric characters"
   HostAMI:

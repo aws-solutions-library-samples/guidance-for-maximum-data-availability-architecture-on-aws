@@ -71,7 +71,7 @@ As "ec2-user", connect to Aurora DB from the App Server.
 psql (15.8, server 15.4)
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
 You are now connected to database "cafedb" as user "postgres".
-  cafedb=>  create user cafeapp password 'Welcome1';
+  cafedb=>  create user cafeapp password 'd6f7984cf7240c5d8587a3cbf9af3ccffcaa9de922908a2cfdb8fad5aeccc3e7';
   cafedb=>  grant all on database cafedb to cafeapp; 
   cafedb=> \c cafedb cafeapp
 psql (15.8, server 15.4)
