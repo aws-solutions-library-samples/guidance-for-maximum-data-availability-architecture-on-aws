@@ -228,6 +228,7 @@ Resources:
       StorageEncrypted: 'true'
       MonitoringInterval: 60
       MonitoringRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role"
+      DeletionProtection: 'true'
       DBInstanceClass: db.r5.large 
       Tags:
          - Key: "Name"
@@ -243,6 +244,7 @@ Resources:
       StorageEncrypted: 'true'
       MonitoringInterval: 60
       MonitoringRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role"
+      DeletionProtection: 'true'
       DBInstanceClass: db.r5.large
       Tags:
          - Key: "Name"
