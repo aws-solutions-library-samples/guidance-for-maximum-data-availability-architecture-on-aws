@@ -27,6 +27,84 @@ Parameters:
     Type: String
     Default: "cafe-keypair"
 Resources:
+####
+# Forced Fix 1
+  ConfigRemediationRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'ssm.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyName: aws-config-remediate-vpc-flow-logs-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - logs:CreateLogDelivery
+                  - logs:DeleteLogDelivery
+                  - logs:CreateLogGroup
+                Resource: arn:aws:logs:*:*:*
+              - Effect: 'Allow'
+                Action:
+                  - ec2:CreateFlowLogs
+                Resource: '*'
+  ConfigRuleForEnableVpcFlowLogs: 
+    Type: AWS::Config::ConfigRule
+    Properties: 
+      ConfigRuleName: !Ref CustomConfigRuleName
+      Description: ConfigPermissionToInvokeAnAutomaticRemediation
+      InputParameters: 
+        trafficType: !Ref TrafficType
+      MaximumExecutionFrequency: !Ref MaxExecutionFrequency
+      Scope: 
+        ComplianceResourceTypes: 
+          - AWS::EC2::VPC
+      Source: 
+        Owner: AWS
+        SourceIdentifier: VPC_FLOW_LOGS_ENABLED
+  VpcFlowLogsRemediationConfiguration:
+    DependsOn: ConfigRuleForEnableVpcFlowLogs
+    Type: AWS::Config::RemediationConfiguration
+    Properties:
+        ConfigRuleName: !Ref CustomConfigRuleName
+        Automatic: true
+        MaximumAutomaticAttempts: 5 #minutes
+        RetryAttemptSeconds: 50 #seconds
+        ResourceType: AWS::EC2::VPC
+        Parameters:
+          VPCIds: 
+            ResourceValue:
+              Value: 'RESOURCE_ID'
+          LogDestinationType: 
+            StaticValue:
+              Values: 
+                - s3
+          LogDestinationArn: 
+            StaticValue:
+              Values: 
+                - !Sub 'arn:aws:s3:::${CentralizedS3LoggingBucket}'
+          TrafficType: 
+            StaticValue:
+              Values: 
+                - !Ref TrafficType
+          AutomationAssumeRole:
+            StaticValue:
+              Values: 
+                - !GetAtt ConfigRemediationRole.Arn
+        TargetId: AWS-EnableVPCFlowLogs
+        TargetType: SSM_DOCUMENT
+        TargetVersion: 1
+# End of Forced Fix 1
+####
 # My demo goes into its own VPC and builds from there.
   CafeDemoVPC:
     UpdateReplacePolicy: "Delete"
