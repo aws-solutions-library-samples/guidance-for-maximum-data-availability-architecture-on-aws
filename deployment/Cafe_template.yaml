@@ -259,6 +259,11 @@ Resources:
         - AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
           SubnetId: !Ref DBSubnet1
+      BlockDeviceMappings:
+        - DeviceName: "/dev/xvda"
+          Ebs:
+          VolumeSize: '30'
+          Encrypted: 'true'
       UserData:
         # This will work properly _only_ at first clean deployment of EC2!
         # Check /var/log/cloud-init* and journalctl -b
