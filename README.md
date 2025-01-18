@@ -75,7 +75,7 @@ I promise not to insult your intelligence with unnecessary dozen of screenshots 
    It is already configured to connect to empty Aurora PG database, just run "psql" from command line. \
    This Git Repo code had already been cloned into "/home/ec2-user/md2a/MD2A/olddba". \
    Go there.
-- Now we need to deploy [this target stack](https://www.linkedin.com/pulse/building-resilient-applications-leveraging-modern-high-denys-dobrelya-pcpqf).
+- Now we need to deploy the target stack
 <img src="assets/CafeAppStackMapping.png" alt="Cafe App Full Resiliency Stack Mapping" width=800px>
 This image "maps" old (but not useless!) "legacy" Enterprise world to newer lightweight approach.
 
@@ -135,7 +135,7 @@ You are now connected to database "cafedb" as user "cafeapp".
 - # systemctl enable httpd.service  # So it will restart after reboot.
 </pre>
 - From your workstation open in Firefox your EC2 host address.
-You should see "home Cafe" landing webpage, delivered over plain HTTP. Setting up your own domain with Route53 and registering all necessary certificates to terminate TLS at ELB is beyond scope of this demo.  [My Demo website]( https://cafe.olddba.people.aws.dev) provides that functionality and Customer workshop may be organised to review full details.
+You should see "home Cafe" landing webpage, delivered over plain HTTP. Setting up your own domain with Route53 and registering all necessary certificates to terminate TLS at ELB is beyond scope of this demo.  My Demo website provides that functionality and Customer workshop may be organised to review full details.
 
 ### App Server
 - Continue as root
