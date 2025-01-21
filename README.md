@@ -54,6 +54,7 @@ You can read about *Application-level Resiliency* on
 
 ## Cafe Demo App deployment process
 By leveraging cloud computing and AWS managed services, _“MD2A” can reduce its carbon footprint_ significantly. AWS data centers are highly energy-efficient, utilizing advanced cooling technologies and renewable energy sources. AWS is committed to sustainable practices, such as reducing waste and optimizing resource usage.
+> Use [this commit](https://github.com/aws-solutions-library-samples/guidance-for-maximum-data-availability-architecture-on-aws/tree/cd3b8a36a0827f76e58aff8b0ba5ffe11a7e447a) to  deploy the _"minimalist"_ version of the solution.
 
 ### Learn Enough Command Line to Be Dangerous
 > A software engineer spends months crafting a complex AI system. Finally, it's ready to deploy. The client, thrilled, asks, _"Can you show me a screenshot of it working?"_ The engineer sighs, _"Sure, here's a picture of my computer screen with the AI running in the background."_

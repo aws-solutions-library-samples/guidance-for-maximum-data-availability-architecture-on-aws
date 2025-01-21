@@ -1,5 +1,6 @@
 # When deploying, name this Stack "Cafe"
-# The Minimal Deployment - git checkout b40cd45 
+# The Minimal Deployment
+# github.com/aws-solutions-library-samples/guidance-for-maximum-data-availability-architecture-on-aws/tree/cd3b8a36a0827f76e58aff8b0ba5ffe11a7e447a
 # *** << --------- Cafe ------------- >> ***
 AWSTemplateFormatVersion: '2010-09-09'
 Description: "Guidance for Maximum Data Availability Architecture on AWS (SO9589)"
