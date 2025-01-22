@@ -1,9 +1,7 @@
 # When deploying, name this Stack "Cafe"
-# The Minimal Deployment
-# github.com/aws-solutions-library-samples/guidance-for-maximum-data-availability-architecture-on-aws/tree/cd3b8a36a0827f76e58aff8b0ba5ffe11a7e447a
 # *** << --------- Cafe ------------- >> ***
 AWSTemplateFormatVersion: '2010-09-09'
-Description: "Guidance for Maximum Data Availability Architecture on AWS (SO9589)"
+Description: "Guidance for Maximum Data Availability Architecture on AWS"
 Parameters:
   PrefxName:
     Description: "Prefix for all resources"
@@ -15,7 +13,7 @@ Parameters:
     Type: String
     MinLength: '8'
     MaxLength: '41'
-    Default: "d6f7984cf7240c5d8587a3cbf9af3ccffcaa9de922908a2cfdb8fad5aeccc3e7" 
+    Default: "Welcome1" # For those, speaking "Red language" ;-)
     AllowedPattern: '[a-zA-Z0-9]*'
     ConstraintDescription: "Must contain only alphanumeric characters"
   HostAMI:
@@ -29,84 +27,6 @@ Parameters:
     Type: String
     Default: "cafe-keypair"
 Resources:
-####
-# Forced Fix 1
-  ConfigRemediationRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: 'Allow'
-            Principal:
-              Service:
-                - 'ssm.amazonaws.com'
-            Action:
-              - 'sts:AssumeRole'
-      Path: '/'
-      Policies:
-        - PolicyName: aws-config-remediate-vpc-flow-logs-policy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: 'Allow'
-                Action:
-                  - logs:CreateLogDelivery
-                  - logs:DeleteLogDelivery
-                  - logs:CreateLogGroup
-                Resource: arn:aws:logs:*:*:*
-              - Effect: 'Allow'
-                Action:
-                  - ec2:CreateFlowLogs
-                Resource: '*'
-  ConfigRuleForEnableVpcFlowLogs: 
-    Type: AWS::Config::ConfigRule
-    Properties: 
-      ConfigRuleName: !Ref CustomConfigRuleName
-      Description: ConfigPermissionToInvokeAnAutomaticRemediation
-      InputParameters: 
-        trafficType: !Ref TrafficType
-      MaximumExecutionFrequency: !Ref MaxExecutionFrequency
-      Scope: 
-        ComplianceResourceTypes: 
-          - AWS::EC2::VPC
-      Source: 
-        Owner: AWS
-        SourceIdentifier: VPC_FLOW_LOGS_ENABLED
-  VpcFlowLogsRemediationConfiguration:
-    DependsOn: ConfigRuleForEnableVpcFlowLogs
-    Type: AWS::Config::RemediationConfiguration
-    Properties:
-        ConfigRuleName: !Ref CustomConfigRuleName
-        Automatic: true
-        MaximumAutomaticAttempts: 5 #minutes
-        RetryAttemptSeconds: 50 #seconds
-        ResourceType: AWS::EC2::VPC
-        Parameters:
-          VPCIds: 
-            ResourceValue:
-              Value: 'RESOURCE_ID'
-          LogDestinationType: 
-            StaticValue:
-              Values: 
-                - s3
-          LogDestinationArn: 
-            StaticValue:
-              Values: 
-                - !Sub 'arn:aws:s3:::${CentralizedS3LoggingBucket}'
-          TrafficType: 
-            StaticValue:
-              Values: 
-                - !Ref TrafficType
-          AutomationAssumeRole:
-            StaticValue:
-              Values: 
-                - !GetAtt ConfigRemediationRole.Arn
-        TargetId: AWS-EnableVPCFlowLogs
-        TargetType: SSM_DOCUMENT
-        TargetVersion: 1
-# End of Forced Fix 1
-####
 # My demo goes into its own VPC and builds from there.
   CafeDemoVPC:
     UpdateReplacePolicy: "Delete"
@@ -226,10 +146,6 @@ Resources:
       DBClusterIdentifier:
         Ref: CafeDemoDB
       PubliclyAccessible: 'false'
-      StorageEncrypted: 'true'
-      MonitoringInterval: 60
-      MonitoringRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role"
-      DeletionProtection: 'true'
       DBInstanceClass: db.r5.large 
       Tags:
          - Key: "Name"
@@ -242,10 +158,6 @@ Resources:
       DBClusterIdentifier:
         Ref: CafeDemoDB
       PubliclyAccessible: 'false'
-      StorageEncrypted: 'true'
-      MonitoringInterval: 60
-      MonitoringRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role"
-      DeletionProtection: 'true'
       DBInstanceClass: db.r5.large
       Tags:
          - Key: "Name"
@@ -260,11 +172,6 @@ Resources:
         - AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
           SubnetId: !Ref DBSubnet1
-      BlockDeviceMappings:
-        - DeviceName: "/dev/xvda"
-          Ebs:
-          VolumeSize: '30'
-          Encrypted: 'true'
       UserData:
         # This will work properly _only_ at first clean deployment of EC2!
         # Check /var/log/cloud-init* and journalctl -b
