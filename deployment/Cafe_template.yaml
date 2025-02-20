@@ -1,7 +1,7 @@
 # When deploying, name this Stack "Cafe"
 # *** << --------- Cafe ------------- >> ***
 AWSTemplateFormatVersion: '2010-09-09'
-Description: "Guidance for Maximum Data Availability Architecture on AWS"
+Description: "Guidance for Maximum Data Availability Architecture on AWS (SO9589)"
 Parameters:
   PrefxName:
     Description: "Prefix for all resources"
